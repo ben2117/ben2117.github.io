@@ -1,0 +1,139 @@
+---
+layout: post
+title:  "should have checked permissions"
+date:   2017-03-24 11:18:44 +1100
+categories: security
+---
+in an attempt to use confused deputy to access the flag, i attempted to use gdb to change the values in the registry so that an if statement returned true, this worked but gdb did not have permission to run /bin/cat
+
+here i dissasemble the program, work out its flow and find the instruction that i want to hijack
+
+{% highlight sh %}
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x080484cd <+0>:  push   ebp
+   0x080484ce <+1>:  mov    ebp,esp
+   0x080484d0 <+3>:  push   edi
+   0x080484d1 <+4>:  and    esp,0xfffffff0
+   0x080484d4 <+7>:  sub    esp,0x90
+   0x080484da <+13>: mov    eax,DWORD PTR [ebp+0xc]
+   0x080484dd <+16>: mov    DWORD PTR [esp+0x1c],eax
+   0x080484e1 <+20>: mov    eax,gs:0x14
+   0x080484e7 <+26>: mov    DWORD PTR [esp+0x8c],eax
+   0x080484ee <+33>: xor    eax,eax
+   0x080484f0 <+35>: cmp    DWORD PTR [ebp+0x8],0x1
+   0x080484f4 <+39>: jg     0x8048514 <main+71>
+   0x080484f6 <+41>: mov    eax,DWORD PTR [esp+0x1c]
+   0x080484fa <+45>: mov    edx,DWORD PTR [eax]
+   0x080484fc <+47>: mov    eax,0x8048680
+   0x08048501 <+52>: mov    DWORD PTR [esp+0x4],edx
+   0x08048505 <+56>: mov    DWORD PTR [esp],eax
+   0x08048508 <+59>: call   0x8048380 <printf@plt>
+   0x0804850d <+64>: mov    eax,0x0
+   0x08048512 <+69>: jmp    0x8048592 <main+197>
+   0x08048514 <+71>: mov    eax,DWORD PTR [esp+0x1c]
+   0x08048518 <+75>: add    eax,0x4
+   0x0804851b <+78>: mov    eax,DWORD PTR [eax]
+
+   0x0804851d <+80>: mov    DWORD PTR [esp+0x18],0xffffffff
+   0x08048525 <+88>: mov    edx,eax
+   0x08048527 <+90>: mov    eax,0x0
+   0x0804852c <+95>: mov    ecx,DWORD PTR [esp+0x18]
+   0x08048530 <+99>: mov    edi,edx
+   0x08048532 <+101>:   repnz scas al,BYTE PTR es:[edi]
+   0x08048534 <+103>:   mov    eax,ecx
+   0x08048536 <+105>:   not    eax
+   0x08048538 <+107>:   sub    eax,0x1
+   0x0804853b <+110>:   cmp    eax,0x14
+   0x0804853e <+113>:   je     0x8048553 <main+134>
+   0x08048540 <+115>:   mov    DWORD PTR [esp],0x8048698
+   0x08048547 <+122>:   call   0x80483a0 <puts@plt>
+   0x0804854c <+127>:   mov    eax,0x0
+   0x08048551 <+132>:   jmp    0x8048592 <main+197>
+   0x08048553 <+134>:   mov    eax,DWORD PTR [esp+0x1c]
+   0x08048557 <+138>:   add    eax,0x4
+   0x0804855a <+141>:   mov    eax,DWORD PTR [eax]
+   0x0804855c <+143>:   mov    DWORD PTR [esp],eax
+   0x0804855f <+146>:   call   0x8048494 <check_password>
+   0x08048564 <+151>:   mov    edx,DWORD PTR ds:0x804a020
+   0x0804856a <+157>:   cmp    eax,edx
+   0x0804856c <+159>:   jne    0x8048581 <main+180>
+   0x0804856e <+161>:   mov    DWORD PTR [esp],0x80486bb
+
+   0x08048575 <+168>:   call   0x80483b0 <system@plt>
+   0x0804857a <+173>:   mov    eax,0x0
+   0x0804857f <+178>:   jmp    0x8048592 <main+197>
+   0x08048581 <+180>:   mov    DWORD PTR [esp],0x80486c9
+   0x08048588 <+187>:   call   0x80483a0 <puts@plt>
+   0x0804858d <+192>:   mov    eax,0x0
+   0x08048592 <+197>:   mov    edx,DWORD PTR [esp+0x8c]
+   0x08048599 <+204>:   xor    edx,DWORD PTR gs:0x14
+   0x080485a0 <+211>:   je     0x80485a7 <main+218>
+   0x080485a2 <+213>:   call   0x8048390 <__stack_chk_fail@plt>
+   0x080485a7 <+218>:   mov    edi,DWORD PTR [ebp-0x4]
+   0x080485aa <+221>:   leave
+   0x080485ab <+222>:   ret
+End of assembler dump.
+(gdb)
+(gdb) break main
+Breakpoint 1 at 0x80484d1
+(gdb) run 12345678901234567890
+Starting program: /home/col/col 12345678901234567890
+{% endhighlight %}
+
+i then set my break point and explore the registers. I set the registers to be compared to 0. I then continue to step throught the program, the comparison returns true but permission is denied.
+
+{% highlight php %}
+Breakpoint 2, 0x0804855c in main ()
+(gdb) ni
+0x0804855f in main ()
+(gdb)
+0x08048564 in main ()
+(gdb)
+0x0804856a in main ()
+(gdb) i r
+eax            0x50a0509   84542729
+ecx            0xffffffea  -22
+edx            0x21dd09ec  568134124
+ebx            0x0   0
+esp            0xffeca370  0xffeca370
+ebp            0xffeca408  0xffeca408
+esi            0xf76ee000  -143728640
+edi            0xffecbe37  -1262025
+eip            0x804856a   0x804856a main+157>
+eflags         0x202 [ IF ]
+cs             0x23  35
+ss             0x2b  43
+ds             0x2b  43
+es             0x2b  43
+fs             0x0   0
+gs             0x63  99
+(gdb) set $eax = 0
+(gdb) set $edx = 0
+(gdb) i r
+eax            0x0   0
+ecx            0xffffffea  -22
+edx            0x0   0
+ebx            0x0   0
+esp            0xffeca370  0xffeca370
+ebp            0xffeca408  0xffeca408
+esi            0xf76ee000  -143728640
+edi            0xffecbe37  -1262025
+eip            0x804856a   0x804856a main+157>
+eflags         0x202 [ IF ]
+cs             0x23  35
+ss             0x2b  43
+ds             0x2b  43
+es             0x2b  43
+fs             0x0   0
+gs             0x63  99
+(gdb) ni
+0x0804856c in main ()
+(gdb)
+0x0804856e in main ()
+(gdb)
+0x08048575 in main ()
+(gdb)
+/bin/cat: flag: Permission denied
+0x0804857a in main ()
+{% endhighlight %}

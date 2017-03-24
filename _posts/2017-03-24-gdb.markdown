@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "gdb cheat sheet"
+date:   2017-03-24 11:18:44 +1100
+categories: gdb
+---
+
+{% highlight gdb %}
+set disassembly-flavor intel
+dissasemble the main function:
+  disassemble main
+show source code : 
+  list
+set break point at line 12: 
+  break 12 
+break at the address given:
+  break *0x0804855c
+show registers : 
+  info registers ( i r ) eg: i r rip
+value of a register : 
+  x/x $rip
+string of a register : 
+  x/s $rip
+instruction at register : 
+  x/i $rip
+next 5 instructions at register:
+  x/5i $rip
+set values at eax and edx to 0:
+  set $eax = 0
+  set $edx = 0
+{% endhighlight %}
