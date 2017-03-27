@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "a design pattern: the abstract factory class"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: java
 ---
 i am tinkering with a board game idea in my spare time and use programming to test out game play mechanics. while setting up the board, the code became messy and i wanted to clean it up.

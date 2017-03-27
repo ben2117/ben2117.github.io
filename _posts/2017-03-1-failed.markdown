@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "should have checked permissions"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: security
 ---
 in an attempt to use confused deputy to access the flag, i attempted to use gdb to change the values in the registry so that an if statement returned true, this worked but gdb did not have permission to run /bin/cat

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "creating a call back"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: java
 ---
 i needed to implement a callback after a certain amount of frames. im not sure the right way to do this so i made it up as i went along.

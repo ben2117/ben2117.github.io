@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "gdb cheat sheet"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: gdb
 ---
 

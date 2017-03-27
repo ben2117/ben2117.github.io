@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "to fingerprint better!"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: javascript fingerprint
 ---
 a while ago i needed a way to keep track of a few users that would be accessing a site. it worked because i was only keeping track of about 5 different people. today i am going to make it more robust by removing the width and height (as they can easily change) and primarily use mimetypes instead along with other information that can be pulled form the navigator javascript object.

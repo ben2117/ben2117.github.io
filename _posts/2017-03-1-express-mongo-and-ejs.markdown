@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "express, mongo and ejs is super easy"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: javascript express
 ---
 whenever i want to quickly roll a node app this is my setup, for my example ill make a simple message board. hopefully it wont take me more then 20 mins

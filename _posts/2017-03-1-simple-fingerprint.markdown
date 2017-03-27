@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "very simple fingerprinting"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: javascript fingerprint
 ---
 when i wanted to see who of about 10 or so users were accsessing a site i quickly wrote this to keep an eye on activity. of course you could drop cookies and that would be better but then its not fingerprinting

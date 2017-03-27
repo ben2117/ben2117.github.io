@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "wordpress: custom post types, taxonomies and making wordpress do stuff it wasnt really designed for"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: php wordpress
 ---
 lets say we want to create an online shop in worpress, we would first create a custom post type that would hold our items we want to sell

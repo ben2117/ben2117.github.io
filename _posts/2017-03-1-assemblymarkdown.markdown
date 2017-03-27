@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "assembly cheat sheet (x86)"
-date:   2017-03-24 11:18:44 +1100
+date:   2017-03-1 11:18:44 +1100
 categories: assembly
 ---
 general purpose registers are RAX( accumulator), RXC (Counter), RDX (Data), RBX(Base)
