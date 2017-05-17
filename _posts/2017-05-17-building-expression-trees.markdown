@@ -4,7 +4,36 @@ title:  "building expression tree with the shunting-yard algorithm "
 date:   2017-05-17 11:11:00 +1100
 categories: learning c++
 ---
+first we need some helper functions
+{% highlight cpp %}
 
+int getPrecedence(string s){
+    if( s == "*" ){
+        return 3;
+    }
+    else if ( s == "/" ){
+        return 3;
+    }
+    else if ( s == "+" ){
+        return 2;
+    }
+    else if( s == "-"){
+        return 2;
+    }
+    return 0;
+}
+
+bool checkForOperator(string s){
+    return (
+            s == "*" ||
+            s == "/" ||
+            s == "+" ||
+            s == "-"
+            );
+}
+{% endhighlight %}
+
+and now to build the tree
 
 {% highlight cpp %}
 buildTree(vector<string> tokens){ 
