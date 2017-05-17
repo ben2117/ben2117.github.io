@@ -5,6 +5,7 @@ date:   2017-05-17 11:11:00 +1100
 categories: learning c++
 ---
 first we need some helper functions
+
 {% highlight cpp %}
 
 int getPrecedence(string s){
