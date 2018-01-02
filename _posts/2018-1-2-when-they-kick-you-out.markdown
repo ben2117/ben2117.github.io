@@ -4,8 +4,9 @@ title:  "when they kick you out"
 date:   2018-01-02 11:11:00 +1100
 categories: german
 ---
+
 wenn sie dich rausschmeißen
-{% highlight ruby%}
+
 2.3.4 :001 > require 'date'
 => true
 
@@ -18,4 +19,5 @@ wenn sie dich rausschmeißen
 2.3.4 :004 > visa_expires.to_s
 => "2018-03-14"
 
-{% endhighlight %}
+thats it all
+

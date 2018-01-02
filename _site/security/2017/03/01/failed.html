@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>should have checked permissions</title>
+  <meta name="description" content="in an attempt to use confused deputy to access the flag, i attempted to use gdb to change the values in the registry so that an if statement returned true, t...">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://localhost:4000/security/2017/03/01/failed.html">
+  <link rel="alternate" type="application/rss+xml" title="my blog (ben)" href="/feed.xml">
+  
+  
+</head>
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">my blog (ben)</a>
+
+    <nav class="site-nav">
+      <span class="menu-icon">
+        <svg viewBox="0 0 18 15" width="18px" height="15px">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </span>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">should have checked permissions</h1>
+    <p class="post-meta"><time datetime="2017-03-01T01:18:44+01:00" itemprop="datePublished">Mar 1, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>in an attempt to use confused deputy to access the flag, i attempted to use gdb to change the values in the registry so that an if statement returned true, this worked but gdb did not have permission to run /bin/cat</p>
+
+<p>here i dissasemble the program, work out its flow and find the instruction that i want to hijack</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>gdb<span class="o">)</span> disassemble main
+Dump of assembler code <span class="k">for function </span>main:
+   0x080484cd &lt;+0&gt;:  push   ebp
+   0x080484ce &lt;+1&gt;:  mov    ebp,esp
+   0x080484d0 &lt;+3&gt;:  push   edi
+   0x080484d1 &lt;+4&gt;:  and    esp,0xfffffff0
+   0x080484d4 &lt;+7&gt;:  sub    esp,0x90
+   0x080484da &lt;+13&gt;: mov    eax,DWORD PTR <span class="o">[</span>ebp+0xc]
+   0x080484dd &lt;+16&gt;: mov    DWORD PTR <span class="o">[</span>esp+0x1c],eax
+   0x080484e1 &lt;+20&gt;: mov    eax,gs:0x14
+   0x080484e7 &lt;+26&gt;: mov    DWORD PTR <span class="o">[</span>esp+0x8c],eax
+   0x080484ee &lt;+33&gt;: xor    eax,eax
+   0x080484f0 &lt;+35&gt;: cmp    DWORD PTR <span class="o">[</span>ebp+0x8],0x1
+   0x080484f4 &lt;+39&gt;: jg     0x8048514 &lt;main+71&gt;
+   0x080484f6 &lt;+41&gt;: mov    eax,DWORD PTR <span class="o">[</span>esp+0x1c]
+   0x080484fa &lt;+45&gt;: mov    edx,DWORD PTR <span class="o">[</span>eax]
+   0x080484fc &lt;+47&gt;: mov    eax,0x8048680
+   0x08048501 &lt;+52&gt;: mov    DWORD PTR <span class="o">[</span>esp+0x4],edx
+   0x08048505 &lt;+56&gt;: mov    DWORD PTR <span class="o">[</span>esp],eax
+   0x08048508 &lt;+59&gt;: call   0x8048380 &lt;<span class="nb">printf</span>@plt&gt;
+   0x0804850d &lt;+64&gt;: mov    eax,0x0
+   0x08048512 &lt;+69&gt;: jmp    0x8048592 &lt;main+197&gt;
+   0x08048514 &lt;+71&gt;: mov    eax,DWORD PTR <span class="o">[</span>esp+0x1c]
+   0x08048518 &lt;+75&gt;: add    eax,0x4
+   0x0804851b &lt;+78&gt;: mov    eax,DWORD PTR <span class="o">[</span>eax]
+
+   0x0804851d &lt;+80&gt;: mov    DWORD PTR <span class="o">[</span>esp+0x18],0xffffffff
+   0x08048525 &lt;+88&gt;: mov    edx,eax
+   0x08048527 &lt;+90&gt;: mov    eax,0x0
+   0x0804852c &lt;+95&gt;: mov    ecx,DWORD PTR <span class="o">[</span>esp+0x18]
+   0x08048530 &lt;+99&gt;: mov    edi,edx
+   0x08048532 &lt;+101&gt;:   repnz scas al,BYTE PTR es:[edi]
+   0x08048534 &lt;+103&gt;:   mov    eax,ecx
+   0x08048536 &lt;+105&gt;:   not    eax
+   0x08048538 &lt;+107&gt;:   sub    eax,0x1
+   0x0804853b &lt;+110&gt;:   cmp    eax,0x14
+   0x0804853e &lt;+113&gt;:   je     0x8048553 &lt;main+134&gt;
+   0x08048540 &lt;+115&gt;:   mov    DWORD PTR <span class="o">[</span>esp],0x8048698
+   0x08048547 &lt;+122&gt;:   call   0x80483a0 &lt;puts@plt&gt;
+   0x0804854c &lt;+127&gt;:   mov    eax,0x0
+   0x08048551 &lt;+132&gt;:   jmp    0x8048592 &lt;main+197&gt;
+   0x08048553 &lt;+134&gt;:   mov    eax,DWORD PTR <span class="o">[</span>esp+0x1c]
+   0x08048557 &lt;+138&gt;:   add    eax,0x4
+   0x0804855a &lt;+141&gt;:   mov    eax,DWORD PTR <span class="o">[</span>eax]
+   0x0804855c &lt;+143&gt;:   mov    DWORD PTR <span class="o">[</span>esp],eax
+   0x0804855f &lt;+146&gt;:   call   0x8048494 &lt;check_password&gt;
+   0x08048564 &lt;+151&gt;:   mov    edx,DWORD PTR ds:0x804a020
+   0x0804856a &lt;+157&gt;:   cmp    eax,edx
+   0x0804856c &lt;+159&gt;:   jne    0x8048581 &lt;main+180&gt;
+   0x0804856e &lt;+161&gt;:   mov    DWORD PTR <span class="o">[</span>esp],0x80486bb
+
+   0x08048575 &lt;+168&gt;:   call   0x80483b0 &lt;system@plt&gt;
+   0x0804857a &lt;+173&gt;:   mov    eax,0x0
+   0x0804857f &lt;+178&gt;:   jmp    0x8048592 &lt;main+197&gt;
+   0x08048581 &lt;+180&gt;:   mov    DWORD PTR <span class="o">[</span>esp],0x80486c9
+   0x08048588 &lt;+187&gt;:   call   0x80483a0 &lt;puts@plt&gt;
+   0x0804858d &lt;+192&gt;:   mov    eax,0x0
+   0x08048592 &lt;+197&gt;:   mov    edx,DWORD PTR <span class="o">[</span>esp+0x8c]
+   0x08048599 &lt;+204&gt;:   xor    edx,DWORD PTR gs:0x14
+   0x080485a0 &lt;+211&gt;:   je     0x80485a7 &lt;main+218&gt;
+   0x080485a2 &lt;+213&gt;:   call   0x8048390 &lt;__stack_chk_fail@plt&gt;
+   0x080485a7 &lt;+218&gt;:   mov    edi,DWORD PTR <span class="o">[</span>ebp-0x4]
+   0x080485aa &lt;+221&gt;:   leave
+   0x080485ab &lt;+222&gt;:   ret
+End of assembler dump.
+<span class="o">(</span>gdb<span class="o">)</span>
+<span class="o">(</span>gdb<span class="o">)</span> <span class="nb">break </span>main
+Breakpoint 1 at 0x80484d1
+<span class="o">(</span>gdb<span class="o">)</span> run 12345678901234567890
+Starting program: /home/col/col 12345678901234567890</code></pre></figure>
+
+<p>i then set my break point and explore the registers. I set the registers to be compared to 0. I then continue to step throught the program, the comparison returns true but permission is denied.</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php">Breakpoint 2, 0x0804855c in main ()
+(gdb) ni
+0x0804855f in main ()
+(gdb)
+0x08048564 in main ()
+(gdb)
+0x0804856a in main ()
+(gdb) i r
+eax            0x50a0509   84542729
+ecx            0xffffffea  -22
+edx            0x21dd09ec  568134124
+ebx            0x0   0
+esp            0xffeca370  0xffeca370
+ebp            0xffeca408  0xffeca408
+esi            0xf76ee000  -143728640
+edi            0xffecbe37  -1262025
+eip            0x804856a   0x804856a main+157&gt;
+eflags         0x202 [ IF ]
+cs             0x23  35
+ss             0x2b  43
+ds             0x2b  43
+es             0x2b  43
+fs             0x0   0
+gs             0x63  99
+(gdb) set $eax = 0
+(gdb) set $edx = 0
+(gdb) i r
+eax            0x0   0
+ecx            0xffffffea  -22
+edx            0x0   0
+ebx            0x0   0
+esp            0xffeca370  0xffeca370
+ebp            0xffeca408  0xffeca408
+esi            0xf76ee000  -143728640
+edi            0xffecbe37  -1262025
+eip            0x804856a   0x804856a main+157&gt;
+eflags         0x202 [ IF ]
+cs             0x23  35
+ss             0x2b  43
+ds             0x2b  43
+es             0x2b  43
+fs             0x0   0
+gs             0x63  99
+(gdb) ni
+0x0804856c in main ()
+(gdb)
+0x0804856e in main ()
+(gdb)
+0x08048575 in main ()
+(gdb)
+/bin/cat: flag: Permission denied
+0x0804857a in main ()</code></pre></figure>
+
+  </div>
+
+  
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">my blog (ben)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              my blog (ben)
+            
+            </li>
+            
+            <li><a href="mailto:ben2117@me.com">ben2117@me.com</a></li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/ben2117"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">ben2117</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
