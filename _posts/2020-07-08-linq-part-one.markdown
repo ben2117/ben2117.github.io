@@ -97,5 +97,18 @@ public void Run()
 ````
 Maybe you should not run that run method though...
 
-but lets talk about a way I could use this method that wont cause an infinite loop
+that is a lot of code though, perhaps someone thought of a way to make this easier well yes, I can do the same thing with yield
+
+```c#
+private Random _random = new Random();
+public IEnumerable NumberableWithYield()
+{
+	while (true)
+	{
+		yield return _random.Next();
+	}
+}
+```
+
+I think once you see these one after the other it gives you an understanding of how coroutines work and how things can be lazily evaluated.
 
