@@ -51,4 +51,51 @@ public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSo
 ````
 I can see that it is an extension method for the type IEnumerable<TSource>
  
+For a contrived example:
+
+````c#
+public class Numberator : IEnumerator
+{
+	public Numberator()
+	{
+		_random = new Random();
+		_currentNumber = 0;
+	}
+
+	private Random _random;
+	int _currentNumber;
+	public object Current => _currentNumber;
+
+	public bool MoveNext()
+	{
+		_currentNumber = _random.Next();
+		return true;
+	}
+
+	public void Reset()
+	{
+		_currentNumber = 0;
+	}
+}
+
+public class Numerable : IEnumerable
+{
+	public IEnumerator GetEnumerator()
+	{
+		return new Numberator();
+	}
+}
+
+public void Run()
+{
+	foreach (var number in new Numerable())
+	{
+		Console.WriteLine(number);
+	}
+}
+
+````
+Maybe you should not run that run method though...
+
+but lets talk about a way I could use this method that wont cause an infinite loop
 
