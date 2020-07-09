@@ -157,9 +157,7 @@ void Main()
 	}
 }
 ````
-
 and when we actually use linq
-
 ```c#
 void Main()
 {
