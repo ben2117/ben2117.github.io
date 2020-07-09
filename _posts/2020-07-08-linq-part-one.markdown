@@ -50,7 +50,7 @@ linq depends on the IEnumerable<T> interface. If I look at linqs select method s
 public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector);
 ````
 I can see that it is an extension method for the type IEnumerable<TSource>
- 
+We can use an array or queue etc with these extension methods as they implement IEnumerable, but to get a feel for how they work with linq let define our own type.
 For a contrived example:
 
 ````c#
@@ -86,7 +86,7 @@ public class Numerable : IEnumerable
 	}
 }
 
-public void Run()
+public void Main()
 {
 	foreach (var number in new Numerable())
 	{
@@ -97,7 +97,9 @@ public void Run()
 ````
 Maybe you should not run that run method though...
 
-that is a lot of code though, perhaps someone thought of a way to make this easier well yes, I can do the same thing with yield
+When you read this implementation it makes it easy to see how the control flow works and gives it that coroutine behaviour. 
+
+Its a lot of boilerplate though so you can write it like this. 
 
 ```c#
 private Random _random = new Random();
@@ -110,5 +112,34 @@ public IEnumerable NumberableWithYield()
 }
 ```
 
-I think once you see these one after the other it gives you an understanding of how coroutines work and how things can be lazily evaluated.
+Even though it is an infinite loop this can still be useful to us due to the afformentioned coroutine behaviour. 
+Let write an extension method that only grabs a certain amount of these random number.
+
+```c#
+public static class MyExtensions
+{
+	public static IEnumerable Grab(this IEnumerable enumerable, int amountToGrab)
+	{
+		var enumerator = enumerable.GetEnumerator();
+		for (int i = 0; i < amountToGrab; i++)
+		{
+			if(enumerator.MoveNext())
+				yield return enumerator.Current;
+		}
+	}
+}
+```
+
+finally we can write a main method that is safe to run
+
+```c#
+void Main()
+{
+	var n = NumberableWithYield().Grab(5);
+	foreach (var number in n)
+	{
+		Console.WriteLine(number);
+	}
+}
+````
 
