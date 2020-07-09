@@ -51,7 +51,7 @@ public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSo
 ````
 I can see that it is an extension method for the type IEnumerable<TSource>
 We can use an array or queue etc with these extension methods as they implement IEnumerable, but to get a feel for how they work with linq let define our own type.
-For a contrived example:
+For a contrived example, we wont worry about types:
 
 ````c#
 public class Numberator : IEnumerator
@@ -112,8 +112,8 @@ public IEnumerable NumberableWithYield()
 }
 ```
 
-Even though it is an infinite loop this can still be useful to us due to the afformentioned coroutine behaviour. 
-Let write an extension method that only grabs a certain amount of these random number.
+Even though it is an infinite loop this can still be useful to us due to the aforementioned coroutine behaviour. 
+Lets write an extension method that only grabs a certain amount of these random number.
 
 ```c#
 public static class MyExtensions
@@ -142,4 +142,34 @@ void Main()
 	}
 }
 ````
+Starting to look a lot like linq
 
+We can we use it with a List
+
+```c#
+void Main()
+{
+	var list = new List<string> {"One", "Two", "Three", "Four", "Five"};
+	var n = list.Grab(3);
+	foreach (var number in n)
+	{
+		Console.WriteLine(number);
+	}
+}
+````
+
+and when we actually use linq
+
+```c#
+void Main()
+{
+	var list = new List<string> {"One", "Two", "Three", "Four", "Five"};
+	
+	var c = list.Take(3);
+	foreach (var number in  c)
+	{
+		Console.WriteLine(number);
+	}
+}
+
+no difference
