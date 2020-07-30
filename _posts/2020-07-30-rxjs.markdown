@@ -1,1 +1,5 @@
 # rxjs
+
+a few years ago I discovered I really liked linq. so when angular comes along with heavy use of reactive extensions that made me happy. Thank you for reading my blog post.
+
+# Observable<any[]>;
