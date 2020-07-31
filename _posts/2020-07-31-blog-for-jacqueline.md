@@ -223,9 +223,9 @@ def cleaning_function( parameter ):
     print(type(parameter))
     
 _ = my_data_frame.apply(cleaning_function, axis=1) # because we are dealing with multiple axes 
-                                                                               # of the dataframe we should specify which axis
-                                                                               # we perform the operation on, in this case we 
-                                                                               # we want to remove the rows
+                                                   # of the dataframe we should specify which axis
+                                                   # we perform the operation on, for me it is easier
+                                                   # to think in terms of each row, 
 ```
 
     <class 'pandas.core.series.Series'>
