@@ -126,7 +126,7 @@ my_series
 
 
 
-few it is still there! instead the series.apply function has returned a new copy of our data. All we need to do is assign the value being returned to a new variable
+phew, it is still there! instead the series.apply function has returned a new copy of our data. All we need to do is assign the value being returned to a new variable
 
 
 ```python
