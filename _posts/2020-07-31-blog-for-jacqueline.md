@@ -212,7 +212,7 @@ my_data_frame
 
 
 
-oh no, I created our dataframe with some bad data, a NaN. How will we clean this dataframe considering the concepts so far?
+oh no, I created our dataframe with some bad data, a string. How will we clean this dataframe considering the concepts so far?
 
 ### applying the concepts
 
@@ -264,7 +264,7 @@ ok cool we get a type of float for each item in the series.
 
 
 ```python
-# Now we want to check if the float is nan. If it is we just set it to 0 right?
+# Now we want to check if the float is string. If it is we just set it to 0 right?
 def access_the_series( parameter ):
     if isinstance(parameter, str):
         return 0.0
