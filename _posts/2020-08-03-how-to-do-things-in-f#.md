@@ -5,7 +5,7 @@
 open Npgsql.FSharp
 
 let AddListing gear = 
-    Helpers.connectionString
+    Sql.fromUri (Uri "postgres://**********************")
     |> Sql.connect
     |> Sql.executeTransaction
         [
@@ -27,7 +27,7 @@ let AddListing gear =
 ```F#
 open Npgsql.FSharp
 let GetAllListings = 
-    Helpers.connectionString
+    Sql.fromUri (Uri "postgres://**********************")
     |> Sql.connect
     |> Sql.query 
         "
