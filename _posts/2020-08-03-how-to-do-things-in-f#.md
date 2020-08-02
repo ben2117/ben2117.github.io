@@ -67,6 +67,10 @@ let GetListing id =
 #r "C:/Users/Ben/.nuget/packages/hopac/0.3.23/lib/netstandard1.6/Hopac.dll"
 #r "C:/Users/Ben/.nuget/packages/http.fs/5.4.0/lib/net471/HttpFs.dll"
 
+open HttpFs.Client
+open Hopac.Core
+open Hopac
+
 let requestUrl location = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" +
     location + 
     "&inputtype=textquery" +
@@ -104,6 +108,10 @@ let site =
 ```
 # Work with json
 ```f#
+#r "C:/Users/Ben/.nuget/packages/fsharp.data/3.3.3/lib/netstandard2.0/FSharp.Data.dll"
+open FSharp.Data
+open FSharp.Data.JsonExtensions
+
 let getLocationData requestResult = JsonValue.Parse(requestResult)?candidates.[0]?geometry?location
 let munichJsonString = placesRequest "Munich"
 
