@@ -1,4 +1,6 @@
-Covid
+Ruby Princess
+
+Covid Commission
 
 Sports Rorts
 
@@ -9,3 +11,7 @@ Bushfires
 Reef Gate
 
 Robo Debt
+
+Murry Darling Watergate
+
+Paladin Contract
