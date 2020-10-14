@@ -32,3 +32,14 @@ select
 from @cartable
 
 ```sql
+
+|partitionid||make|model|carYear|carTrim|
+|-----------||----|-----|-------|-------|
+|2|3|Ford                                              |F-150                                             |1995|Special 2dr Regular Cab LB (4.9L 6cyl naturally aspired 5M)                                                                                                                                             |
+|2|4|Ford                                              |F-150                                             |1995|Special 2dr Regular Cab SB (4.9L 6cyl naturally aspired 5M)                                                                                                                                             |
+|2|5|Ford                                              |F-150                                             |1995|Eddie Bauer 2dr Regular Cab 4WD SB (4.9L 6cyl naturally aspired 5M)                                                                                                                                     |
+|3|1|Toyota                                            |Prius                                             |2018|One 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                                   |
+|3|2|Toyota                                            |Prius                                             |2018|Two 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                                   |
+|3|3|Toyota                                            |Prius                                             |2018|Two Eco 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                               |
+|3|4|Toyota                                            |Prius                                             |2018|Three 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                                 |
+|3|5|Toyota                                            |Prius                                             |2018|Three Touring 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                         |
