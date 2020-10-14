@@ -31,7 +31,7 @@ select
 , *
 from @cartable
 
-```sql
+```
 
 |partitionid||make|model|carYear|carTrim|
 |-----------||----|-----|-------|-------|
