@@ -1,7 +1,6 @@
 # Working Through F#
 
 ```f#
-
 // Functional Datastructures and Algorithims
 
 ///
@@ -146,4 +145,149 @@ let rec fibonacciGeneric n =
         let result = fibonacciX n 
         cache.[n] <- result
         result
+
+
+///
+/// Towers of Hanoi
+///
+
+let rec TowerOfHanoi f x t n = 
+    if n > 0 then
+        TowerOfHanoi f t x (n-1)
+        printfn "Move disc from %c to %c" f t
+        TowerOfHanoi x f t (n-1)
+
+TowerOfHanoi 'a' 'b' 'c' 2
+
+// aparently that was not idomatic f#. for some reason this is better
+
+let rec TowerOfHanoiRec n s f = 
+    match n with 
+    | 0 -> []
+    | _ -> 
+        let t = (6 - s - f)
+        (TowerOfHanoiRec (n-1) s t) @ [s,f] @ (TowerOfHanoiRec(n-1) t f) // the @ concatinates lists
+// I will leave this here as I dont understand the point the following "improvements"
+
+//
+// Lazy Evaluations
+//
+
+let x = lazy(printfn "Lazy Evaluation"; 2*2)
+x
+x.Value
+
+// lazy quicksort
+// the quicksort algorithm
+    // 1. Select a pivot from given array
+    // 2. Partition data into two lists. Elements with values less then the pivot go in the first list and elements greater go in the second
+    // 3. recursivly call
+    // 4. combine
+
+// :: operator paternmatches? with the list so that n is the first element of the list see below
+
+//takes the head of the list and puts it on the end
+let dotDotexamp n = 
+    match n with 
+    | [] -> []
+    | h::t -> 
+        let head, tail = h, t
+        tail @ [head]
+
+// above can be reduced to 
+let dotDotShorter = function
+    | [] -> []
+    | h::t -> 
+        let head, tail = h, t
+        tail @ [head]
+
+//partition example
+let partitionExamp inList = 
+    let firstPart, secondPart = List.partition ( fun a -> a > 5 ) inList
+    (firstPart, secondPart)
+
+//can be reduced to
+let partitionExampSimpler inList = 
+  List.partition ( (>) 5 ) inList
+
+let joinTwoListsExample = [1; 2; 3] @ [2]
+
+// and after all of that i still dont understand it . 
+let rec quickSort = function
+    | [] -> []
+    | n::ns -> 
+        let lessthen, greaterEqual = List.partition ((>) n ) ns
+        quickSort lessthen @ n :: quickSort greaterEqual
+
+
+///
+/// Data Structures 
+/// 
+
+
+//
+// Arrays, just a basic array. they are mutable 
+//
+
+//array forward count 
+let CountTo1000By100 = [|1..100..1000|]
+
+//array reverse count
+let ReverseCount100 = [|100..-1..1|]
+
+//array create zero
+let arrayLength = 23
+let stringZerps : string[] = Array.zeroCreate arrayLength
+
+//array create
+let SixSixers = Array.create 6 6
+
+//array init
+let ArrayofCubes = (Array.init 10 (fun index -> index * index * index))
+
+//Retreiving Arrays
+let imdb : string[] = [|
+    "The Shawshank Redemption (1994)";
+    "The Godfather (1972)";
+    "The Godfather: Part II (1974)";
+    "Il buono, il brutto, il cattivo. (1966)";
+    "Pulp Fiction (1994)";
+    "Inception (2010)";
+    "Schindler's List (1993)";
+    "12 Angry Men (1957)";
+    "One Flew Over the Cuckoo's Nest (1975)";
+    "The Dark Knight (2008)"
+|]
+
+//get the top 3
+imdb.[1..3]
+// get the top 4
+imdb.[1..5]
+//bottom 5
+imdb.[5..]
+//all
+imdb.[0..]
+
+// multidimensional arrays
+let md = Array3D.zeroCreate<int> 11 11 11
+// assign value to array
+md.[0,0,0] <- 1
+md.[0,0,0]
+
+//
+// Lists, are immutable, are ordered, singly linked implementation
+//
+
+// correct way
+let numbers = [0; 1; 2; 3; 4; 5; 6; 7; 8; 9] 
+// 0.o nb this makes tuple, so probably not what you want
+let listTupleNumbers = [0, 2, 3, 4, 5, 6]
+
+// lists can use recursion and pattern matching for 
+let l1 = ["one"; "two"; "three"]
+let l2 = "four"::l1
+let l3 = [l1.[1].[0..1] + "ed"]
+let l4 = l2 @ l3
+
+// Motherflipping list comprehensions. 
 ```
