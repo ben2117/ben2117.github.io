@@ -167,6 +167,29 @@ let choicemap fn choice = // ( 'a -> 'b ) -> Choice<'c, 'a> -> Choice<'c, 'b>
 
 # Applicative
 ### Similar to a functor, except transforms both structure and value instead of just value
+To do this there are two functions, **pure** and **apply**
+
+
+```fsharp
+let optionpure x = Some x // 'a -> 'a option
+```
+
+
+```fsharp
+let optionapply fn opt = //(('a -> 'b) option) => 'a option -> 'b option
+    match (fn, opt) with
+        | Some fn, Some x -> Some (fn x)
+        | None,    _      -> None
+        | _,       None   -> None
+```
+
+##### we can see how similar the apply function is to map
+
+**map**     ( 'a -> 'b ) -> 'a option -> 'b option 
+
+**apply**   (('a -> 'b) option) => 'a option -> 'b option
+
+##### this is because every Applicative is also a functor
 
 
 ```fsharp
