@@ -27,14 +27,14 @@ values
 
 select 
  dense_rank() over ( order by make, model ) as partitionid
-, row_number() over ( partition by make, model order by carYear)
+, row_number() over ( partition by make, model order by carYear) partitionNumber
 , *
 from @cartable
 
 ```
 
-|partitionid||make|model|carYear|carTrim|
-|-----------||----|-----|-------|-------|
+|partitionid|partitionNumber|make|model|carYear|carTrim|
+|-----------|---------------|----|-----|-------|-------|
 |2|3|Ford                                              |F-150                                             |1995|Special 2dr Regular Cab LB (4.9L 6cyl naturally aspired 5M)                                                                                                                                             |
 |2|4|Ford                                              |F-150                                             |1995|Special 2dr Regular Cab SB (4.9L 6cyl naturally aspired 5M)                                                                                                                                             |
 |2|5|Ford                                              |F-150                                             |1995|Eddie Bauer 2dr Regular Cab 4WD SB (4.9L 6cyl naturally aspired 5M)                                                                                                                                     |
@@ -43,3 +43,21 @@ from @cartable
 |3|3|Toyota                                            |Prius                                             |2018|Two Eco 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                               |
 |3|4|Toyota                                            |Prius                                             |2018|Three 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                                 |
 |3|5|Toyota                                            |Prius                                             |2018|Three Touring 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                         |
+This could be a good way of grabbing the lastest ones
+
+```sql
+select * from 
+(
+	select 
+	 dense_rank() over ( order by make, model ) as partitionid
+	, row_number() over ( partition by make, model order by carYear) partitionNumber
+	, *
+	from @cartable
+) t where t.partitionNumber = 1
+```
+
+|partitionid|partitionNumber|make|model|carYear|carTrim|
+|-----------|---------------|----|-----|-------|-------|
+|1|1|BMW                                               |3 Series                                          |1990|325i 2dr Convertible                                                                                                                                                                                    |
+|2|1|Ford                                              |F-150                                             |1995|Special 2dr Regular Cab 4WD SB (4.9L 6cyl naturally aspired 5M)                                                                                                                                         |
+|3|1|Toyota                                            |Prius                                             |2018|One 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                                   |
