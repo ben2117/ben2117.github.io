@@ -43,6 +43,9 @@ from @cartable
 |3|3|Toyota                                            |Prius                                             |2018|Two Eco 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                               |
 |3|4|Toyota                                            |Prius                                             |2018|Three 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                                 |
 |3|5|Toyota                                            |Prius                                             |2018|Three Touring 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)                                                                                                                                         |
+
+
+
 This could be a good way of grabbing the lastest ones
 
 ```sql
