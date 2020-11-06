@@ -384,6 +384,156 @@ partseOrderQty "-1"
 
 
 
+### Using the monad part 2
+
+
+```fsharp
+open System
+let sqrt x = Math.Sqrt x
+let log x = Math.Log x
+let div x y = x / y
+let sqrtAndLogAndDiv x y =
+    sqrt x |> log |> fun x' -> div x' y
+    
+sqrtAndLogAndDiv 67.9 78.8
+```
+
+
+
+
+    0.02676418804
+
+
+
+now we want to do some validation in these functions
+
+
+```fsharp
+let sqrt2 x = if x < 0.0 then None else Some <| Math.Sqrt x
+let log2 x = if x <= 0.0 then None else Some <| Math.Log x
+let div2 x y = if y = 0.0 then None else Some <| x / y
+let sqrtAndLogAndDiv2 x y =
+    match (sqrt2 x) with
+    | Some x' -> 
+        match (log2 x') with 
+        | Some x'' -> div2 x'' y
+        | None -> None
+    | None -> None 
+    
+sqrtAndLogAndDiv2
+```
+
+
+
+
+    <fun:it@12-1> : (double -> (double -> FSharpOption`1))
+
+
+
+This code is pretty messy, so we try to solve it with map
+
+
+```fsharp
+let sqrtAndLogAndDiv3 x y = //float -> float -> float option option option 
+    sqrt2 x
+    |> Option.map log2
+    |> Option.map ( Option.map ( fun x' -> div2 x' y))
+    
+sqrtAndLogAndDiv3 4.3 3.4
+```
+
+
+
+
+    Some (Some (Some 0.2145022092))
+
+
+
+Oh man, that looks bad now we have this nested option. 
+But what if we had a function, lets call it join. It takes an option of an option and unwraps it to just an option.
+
+
+**Join**
+
+
+```fsharp
+let join (m: Option<Option<'a>>): Option<'a> =
+    match m with 
+    | Some a -> a
+    | None -> None
+```
+
+When you have the map and the join, then you have the monad
+
+
+```fsharp
+let sqrtAndLogAndDiv4 x y = //float -> float -> float option 
+    sqrt2 x
+    |> Option.map log2
+    |> join
+    |> Option.map ( fun x' -> div2 x' y)
+    |> join
+    
+sqrtAndLogAndDiv4 4.3 3.4
+```
+
+
+
+
+    Some 0.2145022092
+
+
+
+There are other monad functions, 
+
+**Bind**
+
+
+```fsharp
+let (>>=) (m: Option<'a>) (f: ('a -> Option<'b>)): Option<'b> = 
+    Option.map f m |> join
+```
+
+
+```fsharp
+let sqrtAndLogAndDiv5 x y = //float -> float -> float option
+    sqrt2 x 
+    >>= log2
+    >>= ( fun x' -> div2 x' y)
+    
+sqrtAndLogAndDiv5 4.3 3.4    
+```
+
+
+
+
+    Some 0.2145022092
+
+
+
+**One More I dont Hear Properly** And dont get ethier
+
+
+```fsharp
+let (>=>) (f: ('a -> Option<'b>)) (g: ('b -> Option<'c>)): ('a -> Option<'c>) =
+    fun a -> f a >>= g
+```
+
+
+```fsharp
+let sqrtAndLogAndDiv5 x y = //float -> float -> float option
+    sqrt2 
+    >=> log2
+sqrtAndLogAndDiv5 3.2 3.4 4.3
+```
+
+
+
+
+    Some 0.7293075113
+
+
+
 
 ```fsharp
 
