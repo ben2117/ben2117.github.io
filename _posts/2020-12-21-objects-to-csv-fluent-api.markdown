@@ -3,13 +3,13 @@ say what you will about fluent api's... this is something I wrote to take some i
 usage would be
 ```c#
 byte[] csv =  
-  data
-  .Select( i => new { 
-      	Month_Billed = i.MonthBilled,
-  	Item_Amount = i.Amount
-  })
-  .ToCsvProvider()
-  .GetAsFile();
+	data
+  	.Select( i => new { 
+      		Month_Billed = i.MonthBilled,
+  		Item_Amount = i.Amount
+  	})
+  	.ToCsvProvider()
+  	.GetAsFile();
 ```
 and implementaion is 
 
