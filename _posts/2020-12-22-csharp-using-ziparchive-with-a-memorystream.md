@@ -20,7 +20,7 @@ using (var memoryStream = new MemoryStream())
   Response.Cache.SetCacheability(HttpCacheability.Private);
   Response.Expires = -1;
   Response.Buffer = true;
-  Response.AddHeader("Content-Disposition", string.Format("{0};FileName=\"{1}\"", "attachment", $"Documents.zip"));
+  Response.AddHeader("Content-Disposition", "attachment;FileName=\"Documents.zip\"");
   Response.BinaryWrite(memoryStream.ToArray());
   Response.Flush();
   Response.End();
