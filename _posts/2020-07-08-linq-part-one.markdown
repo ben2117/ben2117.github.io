@@ -158,6 +158,11 @@ void Main()
 	}
 }
 ````
+```output
+One
+Two
+Three
+```
 and when we actually use linq
 ```c#
 void Main()
@@ -171,4 +176,9 @@ void Main()
 	}
 }
 ````
+```output
+One
+Two
+Three
+```
 no difference
