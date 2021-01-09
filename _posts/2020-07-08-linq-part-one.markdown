@@ -112,7 +112,8 @@ public IEnumerable NumberableWithYield()
 }
 ```
 
-Even though it is an infinite loop this can still be useful to us due to the aforementioned coroutine behaviour. 
+Even though it is an infinite loop this can still be useful to us due to the lazy behaviour of the coroutine. 
+# part two, putting them together to make linq
 Lets write an extension method that only grabs a certain amount of these random number.
 
 ```c#
