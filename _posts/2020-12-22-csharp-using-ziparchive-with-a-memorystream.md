@@ -15,5 +15,6 @@ using (var memoryStream = new MemoryStream())
           }
       });
   }
+  DoSomething(memoryStream.ToArray());
 }
 ```
