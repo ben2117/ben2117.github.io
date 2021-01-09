@@ -41,7 +41,7 @@ void Main()
 }
 
 ```
-I find that quite easy to read
+That is some pretty bad code right there. But I think you can see how it works
 
 # part one, the Enumerable
 
