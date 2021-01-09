@@ -1,7 +1,5 @@
-A problem I come accross reguarly is grouping entries in a table. This is a logical group for example group a products 
-by model type and not an aggregate function so should not be confused with the group by method. partition by is an 
-appropriate solution as shown below. 
-
+A problem I come accross reguarly is grouping entries in a table. 
+First lets set up some test data
 ```sql
 declare @cartable table( make CHAR(50), model CHAR(50) , carYear char(4), carTrim char(200) )
 
@@ -24,7 +22,11 @@ values
 ,('Toyota',	    'Prius',	    '2018',	'Two Eco 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)')
 ,('Toyota',	    'Prius',	    '2018',	'Three 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)')
 ,('Toyota',	    'Prius',	    '2018',	'Three Touring 4dr Hatchback (1.8L 4cyl gas/electric hybrid CVT)')
-
+```
+Our requirement is a logical group for example group a products 
+by model type and not an aggregate function so should not be confused with the group by method. partition by is an 
+appropriate solution as shown below. 
+```sql
 select 
  dense_rank() over ( order by make, model ) as partitionid
 , row_number() over ( partition by make, model order by carYear) partitionNumber
