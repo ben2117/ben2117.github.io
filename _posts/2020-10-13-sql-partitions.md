@@ -28,7 +28,7 @@ by model type and not an aggregate function so should not be confused with the g
 appropriate solution as shown below. 
 ```sql
 select 
- dense_rank() over ( order by make, model ) as partitionid
+  dense_rank() over ( order by make, model ) as partitionid
 , row_number() over ( partition by make, model order by carYear) partitionNumber
 , *
 from @cartable
@@ -54,7 +54,7 @@ This could be a good way of grabbing the lastest ones
 select * from 
 (
 	select 
-	 dense_rank() over ( order by make, model ) as partitionid
+	  dense_rank() over ( order by make, model ) as partitionid
 	, row_number() over ( partition by make, model order by carYear) partitionNumber
 	, *
 	from @cartable
