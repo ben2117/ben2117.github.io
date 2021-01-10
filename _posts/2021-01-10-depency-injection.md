@@ -53,6 +53,7 @@ class Core : ICore
 class Benject
 {
 	private Dictionary<Type, Type> _kernal = new Dictionary<Type, Type>();
+	
 	public void Bind<TInterface, TImplementation>() where TImplementation : TInterface
 	{
 		_kernal.Add(typeof(TInterface), typeof(TImplementation));
@@ -77,13 +78,13 @@ class Benject
 
 		return constructor.Invoke(parameters);
 	}
+	
 	public T Initialize<T>()
 	{
 		return (T)Inject(typeof(T));
 	}
-
-
 }
+
 class Program
 {
 	static void Main(string[] args)
