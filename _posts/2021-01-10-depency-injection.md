@@ -64,10 +64,11 @@ class Benject
 			throw new Exception("This type is not bound");
 
 		var constructors = implementation.GetConstructors();
+		
 		if (constructors.Length != 1)
-				throw new Exception("Types Should Have One Constructor");
+			throw new Exception("Types Should Have One Constructor");
+		
 		var constructor = constructors.First();
-
 		var parameters =
 			constructor
 			.GetParameters()
