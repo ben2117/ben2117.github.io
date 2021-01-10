@@ -1,6 +1,19 @@
 # and here you have it, the worlds most complete ioc container
 
 ```c#
+interface ISecondService
+{
+	public string Get();
+}
+
+class SecondService : ISecondService
+{
+	public string Get()
+	{
+		return "Second Service";
+	}
+}
+
 interface IMyService
 {
 	public string Get();
@@ -8,25 +21,16 @@ interface IMyService
 
 class MyServiceOne : IMyService
 {
-	public string Get()
+	private ISecondService _secondService;
+	public MyServiceOne(ISecondService secondService)
 	{
-		return "MyServiceOne";
-	}
-}
-
-class MyServiceTwo : IMyService
-{
-	private string _name;
-	public MyServiceTwo(string name)
-	{
-		_name = name;
+		_secondService = secondService;
 	}
 	public string Get()
 	{
-		return _name;
+		return "MyServiceOne "+ _secondService.Get();
 	}
 }
-
 
 interface ICore
 {
@@ -48,32 +52,35 @@ class Core : ICore
 
 class Benject
 {
-	private Dictionary<Type, Func<object>> _kernal = new Dictionary<Type, Func<object>>();
+	private Dictionary<Type, Type> _kernal = new Dictionary<Type, Type>();
 	public void Bind<TInterface, TImplementation>() where TImplementation : TInterface
 	{
-		_kernal.Add(typeof(TInterface), () => {
-			var type = typeof(TImplementation);
-			var constructors = type.GetConstructors();
-			if (constructors.Length > 1)
-				throw new Exception();
-			var constructor = constructors[0];
-			var parameters = new List<object>();
-			foreach (var parameterInfo in constructor.GetParameters())
-			{
-				if (_kernal.TryGetValue(parameterInfo.ParameterType, out Func<object> result))
-					parameters.Add(result());
-				else throw new Exception();
-			}
-			return constructor.Invoke(parameters.ToArray());
-		});
+		_kernal.Add(typeof(TInterface), typeof(TImplementation));
 	}
 
-	public TKey Resolve<TKey>()
+	public object Inject(Type t)
 	{
-		if (_kernal.TryGetValue(typeof(TKey), out Func<object> result))
-			return (TKey)result();
-		else throw new Exception();
+		if (!_kernal.TryGetValue(t, out Type implementation))
+			throw new Exception("This type is not bound");
+
+		var constructors = implementation.GetConstructors();
+		if (constructors.Length > 1)
+			throw new Exception("Types can only have one constructor");
+		var constructor = constructors.First();
+
+		var parameters =
+			constructor
+			.GetParameters()
+			.Select(parameterInfo => Inject(parameterInfo.ParameterType))
+			.ToArray();
+
+		return constructor.Invoke(parameters);
 	}
+	public T Initialize<T>()
+	{
+		return (T)Inject(typeof(T));
+	}
+
 
 }
 class Program
@@ -83,7 +90,8 @@ class Program
 		Benject benject = new Benject();
 		benject.Bind<ICore, Core>();
 		benject.Bind<IMyService, MyServiceOne>();
-		var core = benject.Resolve<ICore>();
+		benject.Bind<ISecondService, SecondService>();
+		var core = benject.Initialize<ICore>();
 		core.Run();
 	}
 }
