@@ -22,10 +22,12 @@ interface IMyService
 class MyServiceOne : IMyService
 {
 	private ISecondService _secondService;
+	
 	public MyServiceOne(ISecondService secondService)
 	{
 		_secondService = secondService;
 	}
+	
 	public string Get()
 	{
 		return "MyServiceOne "+ _secondService.Get();
@@ -40,10 +42,12 @@ interface ICore
 class Core : ICore
 {
 	private IMyService _myService;
+	
 	public Core(IMyService myService)
 	{
 		_myService = myService;
 	}
+	
 	public void Run()
 	{
 		Console.WriteLine(_myService.Get());
