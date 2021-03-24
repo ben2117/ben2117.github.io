@@ -12,7 +12,7 @@ var results = dataTable
     .Select(row => new
     {
         Name = row.Field<string>("Name"),
-        Date = row.Field<DateTime>("Date"),
+        Date = row.Field<DateTime>("Date")
     })
     .Where(row => row.Date > DateTime.Now.AddDays(-7));
 ```
