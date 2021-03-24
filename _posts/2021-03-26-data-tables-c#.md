@@ -7,7 +7,8 @@ new SqlDataAdapter(
         , "Connnection String" )
     .Fill(dataTable);
 
-var results = dataTable
+var results = 
+    dataTable
     .AsEnumerable()
     .Select(row => new
     {
