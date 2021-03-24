@@ -55,3 +55,16 @@ type Clickable() =
     member this.OnMouseDown() = 
         game.dispatch(game.Clicked this.gameObject)
 ```
+
+### using the raycast api
+```f#
+type RayCastController() = 
+    inherit MonoBehaviour()
+    member this.Update() = 
+        if Input.GetMouseButtonDown(0) then 
+            let ray = Camera.main.ScreenPointToRay(Input.mousePosition)
+            let mutable hit = new RaycastHit()
+            if Physics.Raycast(ray, &hit) then 
+                this.transform.position <- hit.point
+    
+```
