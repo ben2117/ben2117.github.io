@@ -2,8 +2,7 @@ To preface this, I would say that generally unity and f# dont mix. Unity and f# 
 That being said, this is still possible, just be prepared. 
 
 ### getting set up.
-I followed this guide https://docs.google.com/document/d/1TazHYYar_DkLJVeU5qAwpvmWAzJlML3aAFQb2zuExho/edit
-
+I followed this guide https://docs.google.com/document/d/1TazHYYar_DkLJVeU5qAwpvmWAzJlML3aAFQb2zuExho
 
 ### creating as monobehaviour that updates postion on key press
 
@@ -16,7 +15,7 @@ type Controller() =
         let xMovement = if Input.GetKey(KeyCode.A) then -0.1f elif Input.GetKey(KeyCode.D) then 0.1f else 0.f
         this.transform.position <- new Vector3(this.transform.position.x + xMovement, this.transform.position.y)
         this.transform.position <- new Vector3(this.transform.position.x, this.transform.position.y + yMovement)
- ```
+```
  
  ### instatiating prefab from resources and adding said controler to it
  
@@ -25,7 +24,7 @@ type Controller() =
     inherit MonoBehaviour()
     member this.Start() =
         (GameObject.Instantiate(Resources.Load("SpaceShip")) :?> GameObject).AddComponent(typedefof<Controller>)
- ```
+```
  
  
  ### instatiating a prefab and adding more then one component with pipes
