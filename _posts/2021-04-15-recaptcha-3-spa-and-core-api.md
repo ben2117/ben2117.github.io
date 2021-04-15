@@ -38,7 +38,7 @@ We get a token from data-callback and we just want to place it in the recaptchaF
 
 ### The model
 
-our enquiry model that with the fields we expect from the form
+our enquiry model with the fields we expect from the form
 ```c#
 public class Enquiry
 {
@@ -47,6 +47,19 @@ public class Enquiry
 	public string Email { get; set; }
 	public string Message { get; set; }
 	public string Recaptcha { get; set; }
+}
+```
+
+our recaptcha model we expect as a response from google when we check the Recaptcha token we got client side
+
+```c#
+public class Recaptcha
+{
+	public bool Success { get; set; }
+	public string Challenge_ts { get; set; }
+	public string Hostname { get; set; }
+	public string Score { get; set; }
+	public string Action { get; set; }
 }
 ```
 
