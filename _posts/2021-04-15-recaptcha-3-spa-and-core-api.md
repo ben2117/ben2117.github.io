@@ -7,10 +7,11 @@
 
 <form id="contactForm" action="Home/Contact" method="post">
 
+	    <input id="recaptchaField" type="hidden" name="recaptcha" />
+	
             <input type="text" name="name" placeholder="name" >
             <input type="number" name="phone" placeholder="phone" >
             <input type="email" name="email" placeholder="email" >
-            <input id="recaptchaField" type="hidden" name="recaptcha" />
             <textarea name="message"></textarea>
 
         <button data-sitekey="public recaptcha key"
