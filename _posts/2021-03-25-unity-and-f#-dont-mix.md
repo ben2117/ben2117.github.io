@@ -6,7 +6,7 @@ I followed this guide https://docs.google.com/document/d/1TazHYYar_DkLJVeU5qAwpv
 
 ### creating as monobehaviour that updates postion on key press
 
-```f#
+```fsharp
 type Controller() = 
     inherit MonoBehaviour()
     
@@ -19,7 +19,7 @@ type Controller() =
  
  ### instatiating prefab from resources and adding said controler to it
  
- ```f#
+ ```fsharp
  type SetupScript() = 
     inherit MonoBehaviour()
     member this.Start() =
@@ -28,7 +28,7 @@ type Controller() =
  
  
  ### instatiating a prefab and adding more then one component with pipes
- ```f#
+ ```fsharp
      member this.CreatePlayer() = 
         GameObject.Instantiate(Resources.Load("Capsule"), new Vector3(10.0f, 1.0f, 10.0f), new Quaternion()) :?> GameObject
         |> (fun o -> o.gameObject.AddComponent(typedefof<Clickable>))
@@ -56,7 +56,7 @@ type Clickable() =
 ```
 
 ### using the raycast api
-```f#
+```fsharp
 type RayCastController() = 
     inherit MonoBehaviour()
     member this.Update() = 
