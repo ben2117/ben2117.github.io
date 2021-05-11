@@ -1,7 +1,7 @@
 # Talk To Postgres
 
 ## write to db
-```f#
+```fsharp
 open Npgsql.FSharp
 
 let AddListing gear = 
@@ -24,7 +24,7 @@ let AddListing gear =
        ]
 ```
 ## read from db
-```F#
+```fsharp
 open Npgsql.FSharp
 let GetAllListings = 
     Sql.fromUri (Uri "postgres://**********************")
@@ -62,7 +62,7 @@ let GetListing id =
 
 # Send Web Requests
 ## simple
-```f#
+```fsharp
 #r "C:/Users/Ben/.nuget/packages/hopac/0.3.23/lib/netstandard1.6/Hopac.Core.dll"
 #r "C:/Users/Ben/.nuget/packages/hopac/0.3.23/lib/netstandard1.6/Hopac.dll"
 #r "C:/Users/Ben/.nuget/packages/http.fs/5.4.0/lib/net471/HttpFs.dll"
@@ -84,7 +84,7 @@ let placesRequest location =
     |> run
 ```
 ## with authentication and json body
-```f#
+```fsharp
 #r "C:/Users/Ben/.nuget/packages/hopac/0.3.23/lib/netstandard1.6/Hopac.Core.dll"
 #r "C:/Users/Ben/.nuget/packages/hopac/0.3.23/lib/netstandard1.6/Hopac.dll"
 #r "C:/Users/Ben/.nuget/packages/http.fs/5.4.0/lib/net471/HttpFs.dll"
@@ -107,7 +107,7 @@ let site =
   
 ```
 # Work with json
-```f#
+```fsharp
 #r "C:/Users/Ben/.nuget/packages/fsharp.data/3.3.3/lib/netstandard2.0/FSharp.Data.dll"
 open FSharp.Data
 open FSharp.Data.JsonExtensions
@@ -155,7 +155,7 @@ munichJsonString =
 }
 
 ```
-```f#
+```fsharp
 let locs = getLocationData munichJsonString
 ```
 locs = 
