@@ -1,6 +1,6 @@
 # Working Through F#
 
-```f#
+```fsharp
 // Functional Datastructures and Algorithims
 
 ///
