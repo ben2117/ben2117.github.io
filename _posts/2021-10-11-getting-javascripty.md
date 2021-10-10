@@ -47,10 +47,20 @@ console.log(
 
 // Currying
 const theCurry =
-    one => 
-        two => 
-            three => {
+    (one: number) => 
+        (two: number) => 
+            (three: number) => {
                 return one + two + three;
             };
+
+const stepOne = theCurry(4);
+console.log(stepOne); // (two) => (three) => {return one + two + three;} 
+
+const stepTwo = stepOne(2);
+console.log(stepTwo); //(three) => {return one + two + three;}
+
+const stepThree = stepTwo(3);
+console.log(stepThree); //9 
+
 
 ```
