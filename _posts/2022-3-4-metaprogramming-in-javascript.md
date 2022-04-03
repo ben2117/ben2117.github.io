@@ -1,3 +1,4 @@
+````javascript
 type argument = number
 type Fwd = argument
 type Turn = argument;
@@ -44,3 +45,4 @@ const matcher = (comand: Command) => {
 }
 
 matcher(foo)
+````
