@@ -1,5 +1,3 @@
-````javascript
-
 type argument = number
 type Fwd = argument
 type Turn = argument;
@@ -32,8 +30,17 @@ const matcher = (comand: Command) => {
                 for(var i = 0; i < commandArgument; i++){
                     console.log("->")
                 }
+                return
+            case "Repeat":
+                const times = Object.entries(commandArgument)[0][1] as number;
+                const innerCommand = Object.entries(commandArgument)[1][1] as Array<Command>;
+                for(var i = 0; i < times; i++){
+                    for(let j in innerCommand){
+                        matcher(innerCommand[j]);
+                    }
+                }
+                return
     }
 }
 
-matcher(test)
-````
+matcher(foo)
