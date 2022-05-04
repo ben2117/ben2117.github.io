@@ -4,6 +4,20 @@ node --max_old_space_size=8096 node_modules/@angular/cli/bin/ng test --browsers 
 magit-status
 # Emacs
 C-H for help, f is describe function
+
+#### powershell in emacs
+```elisp
+(use-package powershell
+    :straight t
+    :config
+    ;; Change default compile command for powershell
+    (add-hook 'powershell-mode-hook
+    (lambda ()
+        (set (make-local-variable 'compile-command)
+        (format "powershell.exe -NoLogo -NonInteractive -Command \"& '%s'\""             (buffer-file-name)))))
+)
+```
+
 # org mode
 https://www.sastibe.de/2018/11/take-screenshots-straight-into-org-files-in-emacs-on-win10/
 ;;
